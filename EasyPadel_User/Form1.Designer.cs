@@ -1,0 +1,109 @@
+﻿namespace EasyPadel_User
+{
+    partial class EasyPadel
+    {
+        /// <summary>
+        ///  Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        ///  Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        ///  Required method for Designer support - do not modify
+        ///  the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            panel1 = new Panel();
+            textBoxPassword = new TextBox();
+            textBoxUsuari = new TextBox();
+            Login = new Button();
+            panel2 = new Panel();
+            panel1.SuspendLayout();
+            SuspendLayout();
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(Login);
+            panel1.Controls.Add(textBoxPassword);
+            panel1.Controls.Add(textBoxUsuari);
+            panel1.Location = new Point(51, 275);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(410, 282);
+            panel1.TabIndex = 0;
+            // 
+            // textBoxPassword
+            // 
+            textBoxPassword.BorderStyle = BorderStyle.FixedSingle;
+            textBoxPassword.Location = new Point(112, 109);
+            textBoxPassword.MaxLength = 100;
+            textBoxPassword.Name = "textBoxPassword";
+            textBoxPassword.Size = new Size(182, 31);
+            textBoxPassword.TabIndex = 1;
+            // 
+            // textBoxUsuari
+            // 
+            textBoxUsuari.BorderStyle = BorderStyle.FixedSingle;
+            textBoxUsuari.Location = new Point(112, 56);
+            textBoxUsuari.Name = "textBoxUsuari";
+            textBoxUsuari.Size = new Size(182, 31);
+            textBoxUsuari.TabIndex = 0;
+            textBoxUsuari.TextChanged += textBox1_TextChanged;
+            // 
+            // Login
+            // 
+            Login.Location = new Point(147, 163);
+            Login.Name = "Login";
+            Login.Size = new Size(112, 34);
+            Login.TabIndex = 2;
+            Login.Text = "Login";
+            Login.UseVisualStyleBackColor = true;
+            // 
+            // panel2
+            // 
+            panel2.BackgroundImage = Properties.Resources.EasyPadel_logo;
+            panel2.Location = new Point(51, 12);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(410, 238);
+            panel2.TabIndex = 1;
+            panel2.Paint += panel2_Paint;
+            // 
+            // EasyPadel
+            // 
+            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ControlLight;
+            ClientSize = new Size(513, 657);
+            Controls.Add(panel2);
+            Controls.Add(panel1);
+            Name = "EasyPadel";
+            Text = "EasyPadel";
+            Load += Form1_Load;
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            ResumeLayout(false);
+        }
+
+        #endregion
+
+        private Panel panel1;
+        private TextBox textBoxPassword;
+        private TextBox textBoxUsuari;
+        private Button Login;
+        private Panel panel2;
+    }
+}
