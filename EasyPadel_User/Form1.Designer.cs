@@ -2,15 +2,8 @@
 {
     partial class EasyPadel
     {
-        /// <summary>
-        ///  Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        ///  Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -29,9 +22,9 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            Login = new Button();
             textBoxPassword = new TextBox();
             textBoxUsuari = new TextBox();
-            Login = new Button();
             panel2 = new Panel();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -45,6 +38,16 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(410, 282);
             panel1.TabIndex = 0;
+            // 
+            // Login
+            // 
+            Login.Location = new Point(148, 162);
+            Login.Name = "Login";
+            Login.Size = new Size(112, 34);
+            Login.TabIndex = 2;
+            Login.Text = "Login";
+            Login.UseVisualStyleBackColor = true;
+            Login.Click += Login_Click;
             // 
             // textBoxPassword
             // 
@@ -64,18 +67,10 @@
             textBoxUsuari.TabIndex = 0;
             textBoxUsuari.TextChanged += textBox1_TextChanged;
             // 
-            // Login
-            // 
-            Login.Location = new Point(147, 163);
-            Login.Name = "Login";
-            Login.Size = new Size(112, 34);
-            Login.TabIndex = 2;
-            Login.Text = "Login";
-            Login.UseVisualStyleBackColor = true;
-            // 
             // panel2
             // 
-            panel2.BackgroundImage = Properties.Resources.EasyPadel_logo;
+            panel2.BackgroundImage = Properties.Resources.EasyPadel_logo1;
+            panel2.BackgroundImageLayout = ImageLayout.Zoom;
             panel2.Location = new Point(51, 12);
             panel2.Name = "panel2";
             panel2.Size = new Size(410, 238);
@@ -86,7 +81,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ControlLight;
+            BackColor = Color.FromArgb(213, 221, 40);
             ClientSize = new Size(513, 657);
             Controls.Add(panel2);
             Controls.Add(panel1);

@@ -80,5 +80,19 @@ namespace EasyPadel_User
         {
 
         }
+
+        private void Login_Click(object sender, EventArgs e)
+        {
+            bool mailBuit = string.IsNullOrWhiteSpace(textBoxUsuari.Text) ||
+                            (textBoxUsuari.ForeColor == Color.DarkGray && textBoxUsuari.Text == PlaceholderUsuari);
+
+            bool passwordBuit = string.IsNullOrWhiteSpace(textBoxPassword.Text) ||
+                                (textBoxPassword.ForeColor == Color.DarkGray && textBoxPassword.Text == PlaceholderPassword);
+
+            if (mailBuit || passwordBuit)
+            {
+                MessageBox.Show("S'han d'emplenar els camps mail i password.");
+            }
+        }
     }
 }
