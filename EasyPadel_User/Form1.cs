@@ -1,9 +1,12 @@
+using System.Net.Http.Json;
+
 namespace EasyPadel_User
 {
     public partial class EasyPadel : Form
     {
         private const string PlaceholderUsuari = "Correu electrònic";
         private const string PlaceholderPassword = "Contrasenya";
+        private static readonly HttpClient HttpClient = new();
 
         public EasyPadel()
         {
@@ -67,8 +70,7 @@ namespace EasyPadel_User
             }
         }
 
-        private static void RestaurarPlaceholder
-(TextBox textBox, string placeholder, bool esPassword)
+        private static void RestaurarPlaceholder(TextBox textBox, string placeholder, bool esPassword)
         {
             if (string.IsNullOrWhiteSpace(textBox.Text))
             {
@@ -78,10 +80,9 @@ namespace EasyPadel_User
 
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
-
         }
 
-        private void Login_Click(object sender, EventArgs e)
+        private async void Login_Click(object sender, EventArgs e)
         {
             bool mailBuit = string.IsNullOrWhiteSpace(textBoxUsuari.Text) ||
                             (textBoxUsuari.ForeColor == Color.DarkGray && textBoxUsuari.Text == PlaceholderUsuari);
@@ -92,7 +93,66 @@ namespace EasyPadel_User
             if (mailBuit || passwordBuit)
             {
                 MessageBox.Show("S'han d'emplenar els camps mail i password.");
+                return;
+            }
+
+            LoginResponseDto? loginResponse = await ejecutarLogin(textBoxUsuari.Text.Trim(), textBoxPassword.Text);
+            if (loginResponse is null || 
+                !loginResponse.Correcte || 
+                loginResponse.IdUsuari is null || 
+                string.IsNullOrWhiteSpace(loginResponse.Rol))
+            {
+                MessageBox.Show("No s'ha pogut iniciar sessió. Si us plau, revisa els camps.");
+                return;
+            }
+
+            SessionContext.UsuariId = loginResponse.IdUsuari.Value;
+            SessionContext.Rol = loginResponse.Rol;
+
+            Form newForm;
+            if (string.Equals(loginResponse.Rol, "ADMIN", StringComparison.OrdinalIgnoreCase))
+            {
+                newForm = new FormAdministrador();
+            }
+            else
+            {
+                newForm = new FormUsuari();
+            }
+
+            Hide();
+            newForm.FormClosed += (_, _) => Close();
+            newForm.Show();
+        }
+
+        private static async Task<LoginResponseDto?> ejecutarLogin(string email, string password)
+        {
+            var loginRequest = new LoginRequestDto(email, password);
+
+            try
+            {
+                using HttpResponseMessage response = await HttpClient.PostAsJsonAsync("http://localhost:8080/api/usuaris/login", loginRequest);
+                if (!response.IsSuccessStatusCode)
+                {
+                    return null;
+                }
+
+                return await response.Content.ReadFromJsonAsync<LoginResponseDto>();
+            }
+            catch
+            {
+                return null;
             }
         }
+
+        private sealed record LoginRequestDto(string Email, string Password);
+
+        private sealed record LoginResponseDto(bool Correcte, int? IdUsuari, string? Rol, string? Missatge);
+    }
+
+    public static class SessionContext
+    {
+        public static int UsuariId { get; set; }
+
+        public static string Rol { get; set; } = string.Empty;
     }
 }
