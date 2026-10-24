@@ -29,5 +29,10 @@ namespace EasyPadel_User
         {
 
         }
+
+        private void FormAdministrador_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

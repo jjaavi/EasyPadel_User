@@ -2,13 +2,13 @@ using System.Net.Http.Json;
 
 namespace EasyPadel_User
 {
-    public partial class EasyPadel : Form
+    public partial class FormLogin : Form
     {
         private const string PlaceholderUsuari = "Correu electrònic";
         private const string PlaceholderPassword = "Contrasenya";
         private static readonly HttpClient HttpClient = new();
 
-        public EasyPadel()
+        public FormLogin()
         {
             InitializeComponent();
             InicialitzarPlaceholders();

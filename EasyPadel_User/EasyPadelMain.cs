@@ -1,10 +1,13 @@
+using EasyPadel_User;
 using System.Diagnostics;
 using System.Net.Http;
 
-namespace EasyPadel_User
+namespace EasyPadel
 {
     internal static class EasyPadelMain
     {
+        private const string BackendJarPath = @"..\..\..\server\easypadel-backend-1.1.0.jar";
+
         private static readonly HttpClient HttpClient = new()
         {
             Timeout = TimeSpan.FromSeconds(2)
@@ -29,7 +32,7 @@ namespace EasyPadel_User
                 return;
             }
 
-            Application.Run(new EasyPadel());
+            Application.Run(new FormLogin());
         }
 
         private static bool TryStartBackendAndWaitUntilReady()
@@ -40,7 +43,7 @@ namespace EasyPadel_User
 
             try
             {
-                bool started = Task.Run(StartBackendProcess).GetAwaiter().GetResult();
+                bool started = Task.Run(StartServerBackendProcess).GetAwaiter().GetResult();
                 if (!started)
                 {
                     return false;
@@ -74,9 +77,10 @@ namespace EasyPadel_User
             }
         }
 
-        private static bool StartBackendProcess()
+        private static bool StartServerBackendProcess()
         {
-            if (!TryGetBackendJarPath(out string jarPath))
+            string jarPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, BackendJarPath));
+            if (!File.Exists(jarPath))
             {
                 return false;
             }
@@ -113,34 +117,6 @@ namespace EasyPadel_User
             }
         }
 
-        private static bool TryGetBackendJarPath(out string jarPath)
-        {
-            DirectoryInfo? currentDirectory = new(AppContext.BaseDirectory);
-
-            while (currentDirectory is not null)
-            {
-                string serverPath = Path.Combine(currentDirectory.FullName, "server");
-                if (Directory.Exists(serverPath))
-                {
-                    string? jar = Directory
-                        .GetFiles(serverPath, "easypadel-backend-*.jar")
-                        .OrderByDescending(file => file)
-                        .FirstOrDefault();
-
-                    if (!string.IsNullOrWhiteSpace(jar))
-                    {
-                        jarPath = jar;
-                        return true;
-                    }
-                }
-
-                currentDirectory = currentDirectory.Parent;
-            }
-
-            jarPath = string.Empty;
-            return false;
-        }
-
         private static void StopServerProcess()
         {
             try
@@ -168,12 +144,15 @@ namespace EasyPadel_User
                 MinimizeBox = false;
                 MaximizeBox = false;
                 ClientSize = new Size(360, 90);
+                BackColor = Color.FromArgb(213, 221, 40);
 
                 var label = new Label
                 {
                     Dock = DockStyle.Fill,
                     TextAlign = ContentAlignment.MiddleCenter,
-                    Text = message
+                    Text = message,
+                    ForeColor = Color.Black,
+                    BackColor = Color.FromArgb(213, 221, 40)
                 };
 
                 Controls.Add(label);

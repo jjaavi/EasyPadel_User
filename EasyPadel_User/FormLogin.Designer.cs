@@ -1,6 +1,6 @@
 ﻿namespace EasyPadel_User
 {
-    partial class EasyPadel
+    partial class FormLogin
     {
         private System.ComponentModel.IContainer components = null;
 
