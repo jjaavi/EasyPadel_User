@@ -40,20 +40,20 @@
             // 
             panel2.BackgroundImage = Properties.Resources.EasyPadel_logo1;
             panel2.BackgroundImageLayout = ImageLayout.Zoom;
-            panel2.Location = new Point(763, 10);
+            panel2.Location = new Point(954, 12);
             panel2.Margin = new Padding(2);
             panel2.Name = "panel2";
-            panel2.Size = new Size(76, 80);
+            panel2.Size = new Size(95, 100);
             panel2.TabIndex = 2;
             // 
             // lblPrincipal
             // 
             lblPrincipal.AutoSize = true;
             lblPrincipal.Font = new Font("Arial", 16F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblPrincipal.Location = new Point(286, 10);
+            lblPrincipal.Location = new Point(358, 12);
             lblPrincipal.Margin = new Padding(2, 0, 2, 0);
             lblPrincipal.Name = "lblPrincipal";
-            lblPrincipal.Size = new Size(298, 32);
+            lblPrincipal.Size = new Size(345, 36);
             lblPrincipal.TabIndex = 3;
             lblPrincipal.Text = "Panell de administrador";
             lblPrincipal.TextAlign = ContentAlignment.TopCenter;
@@ -62,28 +62,28 @@
             // panelReserves
             // 
             panelReserves.BackColor = Color.White;
-            panelReserves.Location = new Point(10, 129);
+            panelReserves.Location = new Point(12, 161);
             panelReserves.Margin = new Padding(2);
             panelReserves.Name = "panelReserves";
-            panelReserves.Size = new Size(830, 409);
+            panelReserves.Size = new Size(1038, 511);
             panelReserves.TabIndex = 4;
             // 
             // btnReserves
             // 
-            btnReserves.Location = new Point(11, 63);
+            btnReserves.Location = new Point(14, 79);
             btnReserves.Margin = new Padding(2);
             btnReserves.Name = "btnReserves";
-            btnReserves.Size = new Size(206, 27);
+            btnReserves.Size = new Size(258, 34);
             btnReserves.TabIndex = 5;
             btnReserves.Text = "Reserves";
             btnReserves.UseVisualStyleBackColor = true;
             // 
             // btnUsuaris
             // 
-            btnUsuaris.Location = new Point(221, 63);
+            btnUsuaris.Location = new Point(276, 79);
             btnUsuaris.Margin = new Padding(2);
             btnUsuaris.Name = "btnUsuaris";
-            btnUsuaris.Size = new Size(200, 27);
+            btnUsuaris.Size = new Size(250, 34);
             btnUsuaris.TabIndex = 6;
             btnUsuaris.Text = "Usuaris";
             btnUsuaris.UseVisualStyleBackColor = true;
@@ -91,20 +91,21 @@
             // 
             // btnMantenimentDePistes
             // 
-            btnMantenimentDePistes.Location = new Point(425, 63);
+            btnMantenimentDePistes.Location = new Point(531, 79);
             btnMantenimentDePistes.Margin = new Padding(2);
             btnMantenimentDePistes.Name = "btnMantenimentDePistes";
-            btnMantenimentDePistes.Size = new Size(206, 27);
+            btnMantenimentDePistes.Size = new Size(258, 34);
             btnMantenimentDePistes.TabIndex = 7;
             btnMantenimentDePistes.Text = "Manteniment de pistes";
             btnMantenimentDePistes.UseVisualStyleBackColor = true;
             // 
             // FormAdministrador
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BackColor = Color.Silver;
-            ClientSize = new Size(849, 548);
+            ClientSize = new Size(1061, 685);
             Controls.Add(btnMantenimentDePistes);
             Controls.Add(btnUsuaris);
             Controls.Add(btnReserves);

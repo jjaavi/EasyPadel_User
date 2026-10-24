@@ -62,6 +62,7 @@
             // 
             textBoxUsuari.BorderStyle = BorderStyle.FixedSingle;
             textBoxUsuari.Location = new Point(112, 56);
+            textBoxUsuari.MaxLength = 100;
             textBoxUsuari.Name = "textBoxUsuari";
             textBoxUsuari.Size = new Size(182, 31);
             textBoxUsuari.TabIndex = 0;
@@ -77,7 +78,7 @@
             panel2.TabIndex = 1;
             panel2.Paint += panel2_Paint;
             // 
-            // EasyPadel
+            // FormLogin
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -85,9 +86,8 @@
             ClientSize = new Size(513, 657);
             Controls.Add(panel2);
             Controls.Add(panel1);
-            Name = "EasyPadel";
+            Name = "FormLogin";
             Text = "EasyPadel";
-            Load += Form1_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);

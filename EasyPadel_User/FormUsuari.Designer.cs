@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            
             panelLogo = new Panel();
             lblPrincipal = new Label();
             panelReserves = new Panel();
@@ -45,14 +44,42 @@
             lblNovaReserva2 = new Label();
             lblNovaReserva1 = new Label();
             panelConfiguracioSoci = new Panel();
+            checkBoxUpdatePassword = new CheckBox();
+            txtPasswordNou = new TextBox();
+            ltbnconf6 = new Label();
+            txtCognomSoci = new TextBox();
+            txtNomSoci = new TextBox();
+            lblconf2 = new Label();
+            lblconf1 = new Label();
+            btnActualitzarDadesSoci = new Button();
+            txtPasswordActual = new TextBox();
+            txtEmailSoci = new TextBox();
+            lblconf5 = new Label();
+            ltbnconf3 = new Label();
             btnFerReserva = new Button();
             btnMevesReserves = new Button();
             btnConfiguracio = new Button();
+            txtTelefon = new TextBox();
+            ltbnconf4 = new Label();
             btnCancelarReserva = new Button();
             panelReserves.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewReservesSoci).BeginInit();
             panelNovaReserva.SuspendLayout();
+            panelConfiguracioSoci.SuspendLayout();
             SuspendLayout();
+            // 
+            // btnCancelarReserva
+            // 
+            btnCancelarReserva.BackColor = Color.White;
+            btnCancelarReserva.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnCancelarReserva.Location = new Point(829, 511);
+            btnCancelarReserva.Margin = new Padding(2);
+            btnCancelarReserva.Name = "btnCancelarReserva";
+            btnCancelarReserva.Size = new Size(188, 34);
+            btnCancelarReserva.TabIndex = 10;
+            btnCancelarReserva.Text = "Cancelar reserva";
+            btnCancelarReserva.UseVisualStyleBackColor = false;
+            btnCancelarReserva.Click += btnCancelarReserva_Click;
             // 
             // panelLogo
             // 
@@ -79,10 +106,10 @@
             // panelReserves
             // 
             panelReserves.BackColor = Color.White;
-            panelReserves.Controls.Add(btnCancelarReserva);
             panelReserves.Controls.Add(dataGridViewReservesSoci);
             panelReserves.Controls.Add(btnReservesAnteriors);
             panelReserves.Controls.Add(btnReservesActuals);
+            panelReserves.Controls.Add(btnCancelarReserva);
             panelReserves.Location = new Point(12, 116);
             panelReserves.Margin = new Padding(2);
             panelReserves.Name = "panelReserves";
@@ -211,12 +238,137 @@
             // 
             // panelConfiguracioSoci
             // 
-            panelConfiguracioSoci.BackColor = Color.DarkOrange;
+            panelConfiguracioSoci.BackColor = Color.White;
+            panelConfiguracioSoci.Controls.Add(txtTelefon);
+            panelConfiguracioSoci.Controls.Add(ltbnconf4);
+            panelConfiguracioSoci.Controls.Add(checkBoxUpdatePassword);
+            panelConfiguracioSoci.Controls.Add(txtPasswordNou);
+            panelConfiguracioSoci.Controls.Add(ltbnconf6);
+            panelConfiguracioSoci.Controls.Add(txtCognomSoci);
+            panelConfiguracioSoci.Controls.Add(txtNomSoci);
+            panelConfiguracioSoci.Controls.Add(lblconf2);
+            panelConfiguracioSoci.Controls.Add(lblconf1);
+            panelConfiguracioSoci.Controls.Add(btnActualitzarDadesSoci);
+            panelConfiguracioSoci.Controls.Add(txtPasswordActual);
+            panelConfiguracioSoci.Controls.Add(txtEmailSoci);
+            panelConfiguracioSoci.Controls.Add(lblconf5);
+            panelConfiguracioSoci.Controls.Add(ltbnconf3);
             panelConfiguracioSoci.Location = new Point(12, 116);
             panelConfiguracioSoci.Margin = new Padding(4);
             panelConfiguracioSoci.Name = "panelConfiguracioSoci";
             panelConfiguracioSoci.Size = new Size(1038, 555);
             panelConfiguracioSoci.TabIndex = 12;
+            // 
+            // checkBoxUpdatePassword
+            // 
+            checkBoxUpdatePassword.AutoSize = true;
+            checkBoxUpdatePassword.Location = new Point(449, 187);
+            checkBoxUpdatePassword.Name = "checkBoxUpdatePassword";
+            checkBoxUpdatePassword.Size = new Size(178, 29);
+            checkBoxUpdatePassword.TabIndex = 11;
+            checkBoxUpdatePassword.Text = "Canviar password";
+            checkBoxUpdatePassword.UseVisualStyleBackColor = true;
+            // 
+            // txtPasswordNou
+            // 
+            txtPasswordNou.BorderStyle = BorderStyle.FixedSingle;
+            txtPasswordNou.Location = new Point(428, 259);
+            txtPasswordNou.MaxLength = 14;
+            txtPasswordNou.Name = "txtPasswordNou";
+            txtPasswordNou.Size = new Size(208, 31);
+            txtPasswordNou.TabIndex = 10;
+            // 
+            // ltbnconf6
+            // 
+            ltbnconf6.AutoSize = true;
+            ltbnconf6.Location = new Point(290, 259);
+            ltbnconf6.Name = "ltbnconf6";
+            ltbnconf6.Size = new Size(132, 25);
+            ltbnconf6.TabIndex = 9;
+            ltbnconf6.Text = "Nou password:";
+            // 
+            // txtCognomSoci
+            // 
+            txtCognomSoci.AcceptsReturn = true;
+            txtCognomSoci.BorderStyle = BorderStyle.FixedSingle;
+            txtCognomSoci.Location = new Point(428, 76);
+            txtCognomSoci.MaxLength = 20;
+            txtCognomSoci.Name = "txtCognomSoci";
+            txtCognomSoci.Size = new Size(208, 31);
+            txtCognomSoci.TabIndex = 8;
+            // 
+            // txtNomSoci
+            // 
+            txtNomSoci.BorderStyle = BorderStyle.FixedSingle;
+            txtNomSoci.Location = new Point(428, 41);
+            txtNomSoci.MaxLength = 20;
+            txtNomSoci.Name = "txtNomSoci";
+            txtNomSoci.Size = new Size(208, 31);
+            txtNomSoci.TabIndex = 7;
+            // 
+            // lblconf2
+            // 
+            lblconf2.AutoSize = true;
+            lblconf2.Location = new Point(336, 78);
+            lblconf2.Name = "lblconf2";
+            lblconf2.Size = new Size(86, 25);
+            lblconf2.TabIndex = 6;
+            lblconf2.Text = "Cognom:";
+            // 
+            // lblconf1
+            // 
+            lblconf1.AutoSize = true;
+            lblconf1.Location = new Point(364, 44);
+            lblconf1.Name = "lblconf1";
+            lblconf1.Size = new Size(56, 25);
+            lblconf1.TabIndex = 5;
+            lblconf1.Text = "Nom:";
+            // 
+            // btnActualitzarDadesSoci
+            // 
+            btnActualitzarDadesSoci.Location = new Point(428, 301);
+            btnActualitzarDadesSoci.Name = "btnActualitzarDadesSoci";
+            btnActualitzarDadesSoci.Size = new Size(208, 34);
+            btnActualitzarDadesSoci.TabIndex = 4;
+            btnActualitzarDadesSoci.Text = "Actualitzar dades";
+            btnActualitzarDadesSoci.UseVisualStyleBackColor = true;
+            btnActualitzarDadesSoci.Click += btnActualitzarDadesSoci_Click;
+            // 
+            // txtPasswordActual
+            // 
+            txtPasswordActual.BorderStyle = BorderStyle.FixedSingle;
+            txtPasswordActual.Location = new Point(428, 222);
+            txtPasswordActual.MaxLength = 14;
+            txtPasswordActual.Name = "txtPasswordActual";
+            txtPasswordActual.Size = new Size(208, 31);
+            txtPasswordActual.TabIndex = 3;
+            // 
+            // txtEmailSoci
+            // 
+            txtEmailSoci.BorderStyle = BorderStyle.FixedSingle;
+            txtEmailSoci.Location = new Point(428, 113);
+            txtEmailSoci.MaxLength = 100;
+            txtEmailSoci.Name = "txtEmailSoci";
+            txtEmailSoci.Size = new Size(208, 31);
+            txtEmailSoci.TabIndex = 2;
+            // 
+            // lblconf5
+            // 
+            lblconf5.AutoSize = true;
+            lblconf5.Location = new Point(329, 222);
+            lblconf5.Name = "lblconf5";
+            lblconf5.Size = new Size(91, 25);
+            lblconf5.TabIndex = 1;
+            lblconf5.Text = "Password:";
+            // 
+            // ltbnconf3
+            // 
+            ltbnconf3.AutoSize = true;
+            ltbnconf3.Location = new Point(364, 115);
+            ltbnconf3.Name = "ltbnconf3";
+            ltbnconf3.Size = new Size(58, 25);
+            ltbnconf3.TabIndex = 0;
+            ltbnconf3.Text = "email:";
             // 
             // btnFerReserva
             // 
@@ -252,30 +404,36 @@
             btnConfiguracio.Text = "Configuració";
             btnConfiguracio.UseVisualStyleBackColor = true;
             // 
-            // btnCancelarReserva
+            // txtTelefon
             // 
-            btnCancelarReserva.BackColor = Color.White;
-            btnCancelarReserva.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnCancelarReserva.Location = new Point(829, 511);
-            btnCancelarReserva.Margin = new Padding(2);
-            btnCancelarReserva.Name = "btnCancelarReserva";
-            btnCancelarReserva.Size = new Size(188, 34);
-            btnCancelarReserva.TabIndex = 10;
-            btnCancelarReserva.Text = "Cancelar reserva";
-            btnCancelarReserva.UseVisualStyleBackColor = false;
-            btnCancelarReserva.Click += btnCancelarReserva_Click;
+            txtTelefon.BorderStyle = BorderStyle.FixedSingle;
+            txtTelefon.Location = new Point(428, 150);
+            txtTelefon.MaxLength = 100;
+            txtTelefon.Name = "txtTelefon";
+            txtTelefon.Size = new Size(208, 31);
+            txtTelefon.TabIndex = 13;
+            // 
+            // ltbnconf4
+            // 
+            ltbnconf4.AutoSize = true;
+            ltbnconf4.Location = new Point(350, 152);
+            ltbnconf4.Name = "ltbnconf4";
+            ltbnconf4.Size = new Size(72, 25);
+            ltbnconf4.TabIndex = 12;
+            ltbnconf4.Text = "Telèfon:";
             // 
             // FormUsuari
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BackColor = Color.FromArgb(213, 221, 40);
             ClientSize = new Size(1061, 685);
             Controls.Add(btnConfiguracio);
             Controls.Add(btnMevesReserves);
             Controls.Add(btnFerReserva);
-            Controls.Add(panelNovaReserva);
             Controls.Add(panelConfiguracioSoci);
+            Controls.Add(panelNovaReserva);
             Controls.Add(panelLogo);
             Controls.Add(panelReserves);
             Controls.Add(lblPrincipal);
@@ -287,6 +445,8 @@
             ((System.ComponentModel.ISupportInitialize)dataGridViewReservesSoci).EndInit();
             panelNovaReserva.ResumeLayout(false);
             panelNovaReserva.PerformLayout();
+            panelConfiguracioSoci.ResumeLayout(false);
+            panelConfiguracioSoci.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -318,5 +478,19 @@
         private ListBox listPistesDisponibles;
         private ListBox listTorns;
         private Button btnExecutarNovaReserva;
+        private TextBox txtPasswordActual;
+        private TextBox txtEmailSoci;
+        private Label lblconf5;
+        private Label ltbnconf3;
+        private Button btnActualitzarDadesSoci;
+        private Label lblconf1;
+        private TextBox txtCognomSoci;
+        private TextBox txtNomSoci;
+        private Label lblconf2;
+        private TextBox txtPasswordNou;
+        private Label ltbnconf6;
+        private CheckBox checkBoxUpdatePassword;
+        private TextBox txtTelefon;
+        private Label ltbnconf4;
     }
 }

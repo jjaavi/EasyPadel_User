@@ -9,6 +9,13 @@ namespace EasyPadel_User
         private static readonly HttpClient HttpClient = new();
         private static int panelActiuReserves = 1;
         private bool carregantPistes;
+        private bool carregantDadesSoci;
+        private string nomSociOriginal = string.Empty;
+        private string cognomSociOriginal = string.Empty;
+        private string emailSociOriginal = string.Empty;
+        private string telefonSociOriginal = string.Empty;
+        private UsuariConfiguracioDto? usuariConfiguracioActual;
+
         private async void FormUsuari_Load(object sender, EventArgs e)
         {
             MostrarPanelActiu(panelReserves);
@@ -31,6 +38,13 @@ namespace EasyPadel_User
             listPistesDisponibles.SelectedIndexChanged += listPistesDisponibles_SelectedIndexChanged;
             listTorns.SelectedIndexChanged += listTorns_SelectedIndexChanged;
             monthCalendarSeleccio.DateSelected += monthCalendarSeleccio_DateSelected;
+            txtNomSoci.TextChanged += txtDadesSoci_TextChanged;
+            txtCognomSoci.TextChanged += txtDadesSoci_TextChanged;
+            txtEmailSoci.TextChanged += txtDadesSoci_TextChanged;
+            txtTelefon.TextChanged += txtDadesSoci_TextChanged;
+            txtPasswordActual.TextChanged += txtDadesSoci_TextChanged;
+            txtPasswordNou.TextChanged += txtDadesSoci_TextChanged;
+            checkBoxUpdatePassword.CheckedChanged += checkBoxUpdatePassword_CheckedChanged;
             MarcarMenuActiuReserves(btnMevesReserves);
             MarcarSubmenuReservesActiu(btnReservesActuals);
             MostrarPanelActiu(panelReserves);
@@ -158,21 +172,6 @@ namespace EasyPadel_User
             };
         }
 
-        private int getTornIntFromString(string tornString)
-        {
-            return tornString switch
-            {
-                "8h-10h" => 1,
-                "10h-12h" => 2,
-                "12h-14h" => 3,
-                "14h-16h" => 4,
-                "16h-18h" => 5,
-                "18h-20h" => 6,
-                "20h-22h" => 7,
-                _ => 0
-            };
-        }
-
         private int ObtenirHoraIniciTorn(int torn)
         {
             return torn switch
@@ -195,10 +194,12 @@ namespace EasyPadel_User
             await CarregarPistesDisponiblesAsync();
         }
 
-        private void btnConfiguracio_Click(object? sender, EventArgs e)
+        private async void btnConfiguracio_Click(object? sender, EventArgs e)
         {
             MarcarMenuActiuReserves(btnConfiguracio);
             MostrarPanelActiu(panelConfiguracioSoci);
+            ReiniciarPanellConfiguracioSoci();
+            await CarregarDadesConfiguracioSociAsync();
         }
 
         private async void btnCancelarReserva_Click(object sender, EventArgs e)
@@ -335,9 +336,136 @@ namespace EasyPadel_User
             ActualitzarEstatBotoExecutarNovaReserva();
         }
 
+        private async Task CarregarDadesConfiguracioSociAsync()
+        {
+            if (SessionContext.UsuariId <= 0)
+            {
+                MessageBox.Show("No s'ha pogut carregar l'usuari.");
+                return;
+            }
+
+            try
+            {
+                UsuariConfiguracioDto? usuari = await HttpClient.GetFromJsonAsync<UsuariConfiguracioDto>($"http://localhost:8080/api/usuaris/{SessionContext.UsuariId}");
+
+                if (usuari is null)
+                {
+                    MessageBox.Show("No s'han pogut carregar les dades del soci.");
+                    return;
+                }
+
+                carregantDadesSoci = true;
+                usuariConfiguracioActual = usuari;
+
+                txtNomSoci.Text = usuari.Nom ?? string.Empty;
+                txtCognomSoci.Text = usuari.Cognom ?? string.Empty;
+                txtEmailSoci.Text = usuari.Email ?? string.Empty;
+                txtTelefon.Text = usuari.Telefon ?? string.Empty;
+
+                nomSociOriginal = txtNomSoci.Text;
+                cognomSociOriginal = txtCognomSoci.Text;
+                emailSociOriginal = txtEmailSoci.Text;
+                telefonSociOriginal = txtTelefon.Text;
+            }
+            catch
+            {
+                MessageBox.Show("No s'han pogut carregar les dades del soci.");
+            }
+            finally
+            {
+                carregantDadesSoci = false;
+                ActualitzarEstatBotoActualitzarDadesSoci();
+            }
+        }
+
         private void dataGridViewReservesSoci_SelectionChanged(object? sender, EventArgs e)
         {
             ActualitzarEstatBotoCancelarReserva();
+        }
+
+        private void ReiniciarPanellConfiguracioSoci()
+        {
+            checkBoxUpdatePassword.Checked = false;
+            txtPasswordActual.Enabled = false;
+            txtPasswordNou.Enabled = false;
+            txtPasswordActual.Text = string.Empty;
+            txtPasswordNou.Text = string.Empty;
+            btnActualitzarDadesSoci.Enabled = false;
+            btnActualitzarDadesSoci.BackColor = Color.DarkGray;
+        }
+
+        private void txtDadesSoci_TextChanged(object? sender, EventArgs e)
+        {
+            if (carregantDadesSoci)
+            {
+                return;
+            }
+
+            ActualitzarEstatBotoActualitzarDadesSoci();
+        }
+
+        private void checkBoxUpdatePassword_CheckedChanged(object? sender, EventArgs e)
+        {
+            bool habilitar = checkBoxUpdatePassword.Checked;
+
+            if (habilitar)
+            {
+                MessageBox.Show(
+                    "La contrasenya ha de tenir:\r\n" +
+                    "- Mínim de 8 caràcters i màxim de 20.\r\n" +
+                    "- Un caràcter especial (+*-,.$, ...).\r\n" +
+                    "- Un número (1,2,3,...).\r\n" +
+                    "Recorda confirmar la password actual per poder fer el canvi.",
+                    "Canviar password",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+
+            txtPasswordActual.Enabled = habilitar;
+            txtPasswordNou.Enabled = habilitar;
+
+            if (!habilitar)
+            {
+                txtPasswordActual.Text = string.Empty;
+                txtPasswordNou.Text = string.Empty;
+            }
+
+            ActualitzarEstatBotoActualitzarDadesSoci();
+        }
+
+        private void ActualitzarEstatBotoActualitzarDadesSoci()
+        {
+            bool controlTxtsChanged = txtNomSoci.Text != nomSociOriginal
+                || txtCognomSoci.Text != cognomSociOriginal
+                || txtEmailSoci.Text != emailSociOriginal
+                || txtTelefon.Text != telefonSociOriginal;
+
+            bool controlTxtsNullOrWhiteSpace = !string.IsNullOrWhiteSpace(txtNomSoci.Text)
+                && !string.IsNullOrWhiteSpace(txtCognomSoci.Text)
+                && !string.IsNullOrWhiteSpace(txtEmailSoci.Text)
+                && !string.IsNullOrWhiteSpace(txtTelefon.Text);
+
+            bool controlPasswords = !string.IsNullOrWhiteSpace(txtPasswordActual.Text)
+                && !string.IsNullOrWhiteSpace(txtPasswordNou.Text);
+
+            bool habilitar = controlTxtsChanged;
+
+            if (checkBoxUpdatePassword.Checked)
+            {
+                habilitar = controlPasswords;
+            }
+
+            habilitar = habilitar && controlTxtsNullOrWhiteSpace;
+
+            btnActualitzarDadesSoci.Enabled = habilitar;
+            if (habilitar)
+            {
+                btnActualitzarDadesSoci.BackColor = Color.White;
+            }
+            else
+            {
+                btnActualitzarDadesSoci.BackColor = Color.DarkGray;
+            }
         }
 
         private void ActualitzarEstatBotoCancelarReserva()
@@ -418,6 +546,111 @@ namespace EasyPadel_User
             }
         }
 
+        private async void btnActualitzarDadesSoci_Click(object sender, EventArgs e)
+        {
+            if (SessionContext.UsuariId <= 0 || usuariConfiguracioActual is null)
+            {
+                MessageBox.Show("No s'ha pogut carregar l'usuari.");
+                return;
+            }
+
+            if (checkBoxUpdatePassword.Checked)
+            {
+                DialogResult confirmacioCanviPassword = MessageBox.Show(
+                    "Segur que vols fer el canvi de contrasenya?",
+                    "Confirmació",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+                 
+
+                if (confirmacioCanviPassword != DialogResult.Yes)
+                {
+                    return;
+                }
+
+                bool passwordActualCorrecta = await ValidarPasswordActualAsync();
+                if (!passwordActualCorrecta)
+                {
+                    MessageBox.Show("La contrasenya actual no és correcta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (checkBoxUpdatePassword.Checked && (txtPasswordNou.Text.Length < 8 || txtPasswordNou.Text.Length > 20))
+                {
+                    MessageBox.Show("La nova contrasenya ha de tenir entre 8 i 20 caràcters.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (checkBoxUpdatePassword.Checked && !txtPasswordNou.Text.Any(char.IsDigit) ||
+                    checkBoxUpdatePassword.Checked && !txtPasswordNou.Text.Any(ch => !char.IsLetterOrDigit(ch)))
+                {
+                    MessageBox.Show("La nova contrasenya ha de contenir almenys un número i un caràcter especial.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+
+            string passwordPerUpdate = null;
+            if (checkBoxUpdatePassword.Checked && !string.IsNullOrWhiteSpace(txtPasswordNou.Text))
+            {
+                passwordPerUpdate = txtPasswordNou.Text.Trim();
+            }
+
+            var request = new UsuariUpdateRequestDto(
+                txtNomSoci.Text.Trim(),
+                txtCognomSoci.Text.Trim(),
+                txtEmailSoci.Text.Trim(),
+                passwordPerUpdate,
+                txtTelefon.Text.Trim(),
+                usuariConfiguracioActual.Rol,
+                usuariConfiguracioActual.Actiu);
+
+            try
+            {
+                using HttpResponseMessage response = await HttpClient.PutAsJsonAsync(
+                    $"http://localhost:8080/api/usuaris/{SessionContext.UsuariId}",
+                    request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    ReiniciarPanellConfiguracioSoci();
+                    await CarregarDadesConfiguracioSociAsync();
+                    MessageBox.Show("Dades actualitzades correctament", "Informació", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("No s'han pogut actualitzar les dades del soci.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("No s'han pogut actualitzar les dades del soci.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async Task<bool> ValidarPasswordActualAsync()
+        {
+            string emailPerLogin = string.IsNullOrWhiteSpace(emailSociOriginal)
+                ? txtEmailSoci.Text.Trim()
+                : emailSociOriginal;
+
+            if (string.IsNullOrWhiteSpace(emailPerLogin) || string.IsNullOrWhiteSpace(txtPasswordActual.Text))
+            {
+                return false;
+            }
+
+            var loginRequest = new LoginRequestDto(emailPerLogin, txtPasswordActual.Text);
+
+            try
+            {
+                using HttpResponseMessage response = await HttpClient.PostAsJsonAsync("http://localhost:8080/api/usuaris/login", loginRequest);
+                return response.IsSuccessStatusCode;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         private sealed record ReservaResponseDto(int Id, int UsuariId, string UsuariNom, string UsuariCognom, int PistaId, string PistaNom, string Data, int Torn);
 
         private sealed record PistaDisponibleDto(int Id, string Nom);
@@ -436,5 +669,28 @@ namespace EasyPadel_User
         {
             public override string ToString() => Text;
         }
+
+        private sealed record LoginRequestDto(
+            [property: JsonPropertyName("email")] string Email,
+            [property: JsonPropertyName("password")] string Password);
+
+        private sealed record UsuariUpdateRequestDto(
+            [property: JsonPropertyName("nom")] string Nom,
+            [property: JsonPropertyName("cognom")] string Cognom,
+            [property: JsonPropertyName("email")] string Email,
+            [property: JsonPropertyName("password")] string? Password,
+            [property: JsonPropertyName("telefon")] string? Telefon,
+            [property: JsonPropertyName("rol")] string? Rol,
+            [property: JsonPropertyName("actiu")] bool? Actiu);
+
+        private sealed record UsuariConfiguracioDto(
+            [property: JsonPropertyName("id")] int? Id,
+            [property: JsonPropertyName("nom")] string? Nom,
+            [property: JsonPropertyName("cognom")] string? Cognom,
+            [property: JsonPropertyName("email")] string? Email,
+            [property: JsonPropertyName("telefon")] string? Telefon,
+            [property: JsonPropertyName("rol")] string? Rol,
+            [property: JsonPropertyName("actiu")] bool? Actiu,
+            [property: JsonPropertyName("password")] string? Password);
     }
 }
