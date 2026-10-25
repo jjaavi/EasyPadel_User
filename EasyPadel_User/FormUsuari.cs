@@ -90,6 +90,10 @@ namespace EasyPadel_User
             panelReserves.Visible = panelVisible == panelReserves;
             panelNovaReserva.Visible = panelVisible == panelNovaReserva;
             panelConfiguracioSoci.Visible = panelVisible == panelConfiguracioSoci;
+
+            ActualitzarEstatBotoCancelarReserva();
+            ActualitzarEstatBotoExecutarNovaReserva();
+            ActualitzarEstatBotoActualitzarDadesSoci();
         }
 
         private async void btnMevesReserves_Click(object sender, EventArgs e)
@@ -455,7 +459,7 @@ namespace EasyPadel_User
                 habilitar = controlPasswords;
             }
 
-            habilitar = habilitar && controlTxtsNullOrWhiteSpace;
+            habilitar = panelConfiguracioSoci.Visible && habilitar && controlTxtsNullOrWhiteSpace;
 
             btnActualitzarDadesSoci.Enabled = habilitar;
             if (habilitar)
@@ -470,14 +474,9 @@ namespace EasyPadel_User
 
         private void ActualitzarEstatBotoCancelarReserva()
         {
-            if (dataGridViewReservesSoci.SelectedRows.Count > 0 && panelActiuReserves == 1)
-            {
-                btnCancelarReserva.Enabled = true;
-            }
-            else
-            {
-                btnCancelarReserva.Enabled = false;
-            }
+            btnCancelarReserva.Enabled = panelReserves.Visible
+                && dataGridViewReservesSoci.SelectedRows.Count > 0
+                && panelActiuReserves == 1;
         }
 
         private void ActualitzarEstatBotoExecutarNovaReserva()
@@ -487,14 +486,10 @@ namespace EasyPadel_User
             bool pistaSeleccionada = listPistesDisponibles.SelectedItem is PistaDisponibleDto;
             bool tornDisponibleSeleccionat = listTorns.SelectedItem is TornListItem torn && torn.Disponible;
 
-            if (dataSeleccionada && pistaSeleccionada && tornDisponibleSeleccionat)
-            {
-                btnExecutarNovaReserva.Enabled = true;
-            }
-            else
-            {
-                btnExecutarNovaReserva.Enabled = false;
-            }
+            btnExecutarNovaReserva.Enabled = panelNovaReserva.Visible
+                && dataSeleccionada
+                && pistaSeleccionada
+                && tornDisponibleSeleccionat;
         }
 
         private async void btnExecutarNovaReserva_Click(object sender, EventArgs e)

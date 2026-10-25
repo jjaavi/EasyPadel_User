@@ -26,6 +26,7 @@
             textBoxPassword = new TextBox();
             textBoxUsuari = new TextBox();
             panel2 = new Panel();
+            printDialog1 = new PrintDialog();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -78,6 +79,10 @@
             panel2.TabIndex = 1;
             panel2.Paint += panel2_Paint;
             // 
+            // printDialog1
+            // 
+            printDialog1.UseEXDialog = true;
+            // 
             // FormLogin
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -86,6 +91,8 @@
             ClientSize = new Size(513, 657);
             Controls.Add(panel2);
             Controls.Add(panel1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
             Name = "FormLogin";
             Text = "EasyPadel";
             panel1.ResumeLayout(false);
@@ -100,5 +107,6 @@
         private TextBox textBoxUsuari;
         private Button Login;
         private Panel panel2;
+        private PrintDialog printDialog1;
     }
 }

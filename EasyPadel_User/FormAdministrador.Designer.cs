@@ -31,9 +31,18 @@
             panel2 = new Panel();
             lblPrincipal = new Label();
             panelReserves = new Panel();
+            dataGridReserves = new DataGridView();
+            btnModificarReserva = new Button();
+            btnEliminarReserva = new Button();
             btnReserves = new Button();
             btnUsuaris = new Button();
             btnMantenimentDePistes = new Button();
+            btnBuscarReserva = new Button();
+            panelUsuaris = new Panel();
+            panel1 = new Panel();
+            panelReserves.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridReserves).BeginInit();
+            panelUsuaris.SuspendLayout();
             SuspendLayout();
             // 
             // panel2
@@ -62,11 +71,44 @@
             // panelReserves
             // 
             panelReserves.BackColor = Color.White;
-            panelReserves.Location = new Point(12, 161);
+            panelReserves.Controls.Add(panelUsuaris);
+            panelReserves.Controls.Add(btnBuscarReserva);
+            panelReserves.Controls.Add(dataGridReserves);
+            panelReserves.Controls.Add(btnModificarReserva);
+            panelReserves.Controls.Add(btnEliminarReserva);
+            panelReserves.Location = new Point(12, 117);
             panelReserves.Margin = new Padding(2);
             panelReserves.Name = "panelReserves";
-            panelReserves.Size = new Size(1038, 511);
+            panelReserves.Size = new Size(1038, 555);
             panelReserves.TabIndex = 4;
+            // 
+            // dataGridReserves
+            // 
+            dataGridReserves.BackgroundColor = SystemColors.Control;
+            dataGridReserves.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridReserves.Location = new Point(14, 52);
+            dataGridReserves.Name = "dataGridReserves";
+            dataGridReserves.RowHeadersWidth = 62;
+            dataGridReserves.Size = new Size(1007, 448);
+            dataGridReserves.TabIndex = 2;
+            // 
+            // btnModificarReserva
+            // 
+            btnModificarReserva.Location = new Point(705, 506);
+            btnModificarReserva.Name = "btnModificarReserva";
+            btnModificarReserva.Size = new Size(155, 34);
+            btnModificarReserva.TabIndex = 1;
+            btnModificarReserva.Text = "Modificar";
+            btnModificarReserva.UseVisualStyleBackColor = true;
+            // 
+            // btnEliminarReserva
+            // 
+            btnEliminarReserva.Location = new Point(866, 506);
+            btnEliminarReserva.Name = "btnEliminarReserva";
+            btnEliminarReserva.Size = new Size(155, 34);
+            btnEliminarReserva.TabIndex = 0;
+            btnEliminarReserva.Text = "Eliminar";
+            btnEliminarReserva.UseVisualStyleBackColor = true;
             // 
             // btnReserves
             // 
@@ -99,6 +141,30 @@
             btnMantenimentDePistes.Text = "Manteniment de pistes";
             btnMantenimentDePistes.UseVisualStyleBackColor = true;
             // 
+            // btnBuscarReserva
+            // 
+            btnBuscarReserva.Location = new Point(866, 12);
+            btnBuscarReserva.Name = "btnBuscarReserva";
+            btnBuscarReserva.Size = new Size(155, 34);
+            btnBuscarReserva.TabIndex = 3;
+            btnBuscarReserva.Text = "Buscar";
+            btnBuscarReserva.UseVisualStyleBackColor = true;
+            // 
+            // panelUsuaris
+            // 
+            panelUsuaris.Controls.Add(panel1);
+            panelUsuaris.Location = new Point(0, 1);
+            panelUsuaris.Name = "panelUsuaris";
+            panelUsuaris.Size = new Size(1038, 555);
+            panelUsuaris.TabIndex = 4;
+            // 
+            // panel1
+            // 
+            panel1.Location = new Point(8, 8);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1038, 555);
+            panel1.TabIndex = 5;
+            // 
             // FormAdministrador
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -113,9 +179,13 @@
             Controls.Add(lblPrincipal);
             Controls.Add(panel2);
             Margin = new Padding(2);
+            MaximizeBox = false;
             Name = "FormAdministrador";
-            Text = "FormUsuari";
+            Text = "Easy Padel - Panell d'administrador";
             Load += FormAdministrador_Load;
+            panelReserves.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridReserves).EndInit();
+            panelUsuaris.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -128,5 +198,11 @@
         private Button btnReserves;
         private Button btnUsuaris;
         private Button btnMantenimentDePistes;
+        private Button btnModificarReserva;
+        private Button btnEliminarReserva;
+        private DataGridView dataGridReserves;
+        private Panel panelUsuaris;
+        private Panel panel1;
+        private Button btnBuscarReserva;
     }
 }
