@@ -75,7 +75,6 @@
             lblPrincipal.TabIndex = 3;
             lblPrincipal.Text = "Panell de administrador";
             lblPrincipal.TextAlign = ContentAlignment.TopCenter;
-            lblPrincipal.Click += label1_Click;
             // 
             // panelReserves
             // 
@@ -193,6 +192,7 @@
             btnCercarReserva.TabIndex = 3;
             btnCercarReserva.Text = "Cercar";
             btnCercarReserva.UseVisualStyleBackColor = true;
+            btnCercarReserva.Click += btnCercarReserva_Click;
             // 
             // dataGridReserves
             // 
@@ -218,6 +218,7 @@
             btnModificarReserva.TabIndex = 1;
             btnModificarReserva.Text = "Modificar";
             btnModificarReserva.UseVisualStyleBackColor = true;
+            btnModificarReserva.Click += btnModificarReserva_Click;
             // 
             // btnEliminarReserva
             // 

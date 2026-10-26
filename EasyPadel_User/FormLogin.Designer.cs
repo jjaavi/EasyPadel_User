@@ -67,7 +67,6 @@
             textBoxUsuari.Name = "textBoxUsuari";
             textBoxUsuari.Size = new Size(182, 31);
             textBoxUsuari.TabIndex = 0;
-            textBoxUsuari.TextChanged += textBox1_TextChanged;
             // 
             // panel2
             // 
@@ -77,7 +76,6 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(410, 238);
             panel2.TabIndex = 1;
-            panel2.Paint += panel2_Paint;
             // 
             // printDialog1
             // 
@@ -88,7 +86,7 @@
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(213, 221, 40);
-            ClientSize = new Size(513, 657);
+            ClientSize = new Size(513, 594);
             Controls.Add(panel2);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.FixedSingle;

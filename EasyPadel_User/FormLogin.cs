@@ -14,10 +14,6 @@ namespace EasyPadel_User
             InicialitzarPlaceholders();
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-        }
-
         private void InicialitzarPlaceholders()
         {
             MostrarPlaceholder(textBoxUsuari, PlaceholderUsuari, false);
@@ -74,10 +70,6 @@ namespace EasyPadel_User
             }
         }
 
-        private void panel2_Paint(object sender, PaintEventArgs e)
-        {
-        }
-
         private async void Login_Click(object sender, EventArgs e)
         {
             bool mailBuit = string.IsNullOrWhiteSpace(textBoxUsuari.Text) ||
@@ -93,9 +85,9 @@ namespace EasyPadel_User
             }
 
             LoginResponseDto? loginResponse = await ejecutarLogin(textBoxUsuari.Text.Trim(), textBoxPassword.Text);
-            if (loginResponse is null || 
-                !loginResponse.Correcte || 
-                loginResponse.IdUsuari is null || 
+            if (loginResponse is null ||
+                !loginResponse.Correcte ||
+                loginResponse.IdUsuari is null ||
                 string.IsNullOrWhiteSpace(loginResponse.Rol))
             {
                 MessageBox.Show("No s'ha pogut iniciar sessió. Si us plau, revisa els camps.");
@@ -139,7 +131,6 @@ namespace EasyPadel_User
                 return null;
             }
         }
-
         private sealed record LoginRequestDto(string Email, string Password);
 
         private sealed record LoginResponseDto(bool Correcte, int? IdUsuari, string? Rol, string? Missatge);

@@ -18,6 +18,9 @@ namespace EasyPadel_User
             btnUsuaris.Click += btnUsuaris_Click;
             btnMantenimentDePistes.Click += btnMantenimentDePistes_Click;
             btnCercarReserva.Click += btnCercarReserva_Click;
+            btnModificarReserva.Click += btnModificarReserva_Click;
+            dataGridReserves.SelectionChanged += dataGridReserves_SelectionChanged;
+            dataGridReserves.CellContentDoubleClick += btnModificarReserva_Click;
         }
 
         private void MarcarMenuActiuAdministrador(Button botoActiu)
@@ -84,6 +87,7 @@ namespace EasyPadel_User
             }
 
             await CarregarProperes20ReservesAsync();
+            ActualitzarEstatBotonsReserves();
         }
 
         private async Task CarregarProperes20ReservesAsync()
@@ -104,17 +108,18 @@ namespace EasyPadel_User
         }
 
         private async void btnCercarReserva_Click(object? sender, EventArgs e)
-        {   
+        {
             if (!validarInt(txtFiltreIDreserva.Text, out int? reservaId)
                 || !validarInt(txtFiltreIDUsuari.Text, out int? usuariId)
-                || !validarInt(txtFiltrePista.Text, out int? pistaId)){
+                || !validarInt(txtFiltrePista.Text, out int? pistaId))
+            {
                 MessageBox.Show("Els camps Id reserva, Id usuari i Pista han de ser numèrics.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (!validarData(txtFiltreData.Text, out string? data))
             {
-                MessageBox.Show("El format de data no és vàlid. Ha de ser dd-MM-yyyy.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("El format de data no és vàlid. Ha de ser yyyy-MM-dd.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -233,6 +238,52 @@ namespace EasyPadel_User
                     Torn = GetHoresTornString(r.Torn)
                 })
                 .ToList();
+
+            ActualitzarEstatBotonsReserves();
+        }
+
+        private void dataGridReserves_SelectionChanged(object? sender, EventArgs e)
+        {
+            ActualitzarEstatBotonsReserves();
+        }
+
+        private async void btnModificarReserva_Click(object? sender, EventArgs e)
+        {
+            if (dataGridReserves.SelectedRows.Count == 0)
+            {
+                return;
+            }
+
+            DataGridViewRow fila = dataGridReserves.SelectedRows[0];
+            int reservaId = Convert.ToInt32(fila.Cells["Id"].Value);
+            int usuariId = Convert.ToInt32(fila.Cells["UsuariId"].Value);
+            int pistaId = Convert.ToInt32(fila.Cells["PistaId"].Value);
+            string data = Convert.ToString(fila.Cells["Data"].Value) ?? string.Empty;
+            string tornText = Convert.ToString(fila.Cells["Torn"].Value) ?? string.Empty;
+            int torn = getTornComboBoxIndex(tornText);
+
+            using FormAdministrador_EditarReserva formulariEditar = new(reservaId, usuariId, pistaId, data, torn);
+            formulariEditar.StartPosition = FormStartPosition.Manual;
+            formulariEditar.Location = this.Location;
+
+            if (formulariEditar.ShowDialog(this) == DialogResult.OK)
+            {
+                await CarregarProperes20ReservesAsync();
+            }
+        }
+
+        private void ActualitzarEstatBotonsReserves()
+        {
+            if (dataGridReserves.SelectedRows.Count > 0)
+            {
+                btnModificarReserva.Enabled = true;
+                btnEliminarReserva.Enabled = true;
+            }
+            else
+            {
+                btnModificarReserva.Enabled = false;
+                btnEliminarReserva.Enabled = false;
+            }
         }
 
         private string GetHoresTornString(int torn)
@@ -273,10 +324,6 @@ namespace EasyPadel_User
                 default:
                     return -1;
             }
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
         }
 
         private async void FormAdministrador_Load(object sender, EventArgs e)
