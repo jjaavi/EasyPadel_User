@@ -131,6 +131,7 @@ namespace EasyPadel_User
                 return null;
             }
         }
+
         private sealed record LoginRequestDto(string Email, string Password);
 
         private sealed record LoginResponseDto(bool Correcte, int? IdUsuari, string? Rol, string? Missatge);

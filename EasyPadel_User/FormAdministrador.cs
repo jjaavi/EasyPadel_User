@@ -19,6 +19,7 @@ namespace EasyPadel_User
             btnMantenimentDePistes.Click += btnMantenimentDePistes_Click;
             btnCercarReserva.Click += btnCercarReserva_Click;
             btnModificarReserva.Click += btnModificarReserva_Click;
+            btnEliminarReserva.Click += btnEliminarReserva_Click;
             dataGridReserves.SelectionChanged += dataGridReserves_SelectionChanged;
             dataGridReserves.CellContentDoubleClick += btnModificarReserva_Click;
         }
@@ -265,10 +266,52 @@ namespace EasyPadel_User
             using FormAdministrador_EditarReserva formulariEditar = new(reservaId, usuariId, pistaId, data, torn);
             formulariEditar.StartPosition = FormStartPosition.Manual;
             formulariEditar.Location = this.Location;
+            formulariEditar.Size = new Size(389, 378);
+            formulariEditar.MinimumSize = new Size(389, 378);
 
             if (formulariEditar.ShowDialog(this) == DialogResult.OK)
             {
                 await CarregarProperes20ReservesAsync();
+            }
+        }
+
+        private async void btnEliminarReserva_Click(object? sender, EventArgs e)
+        {
+            if (dataGridReserves.SelectedRows.Count == 0)
+            {
+                return;
+            }
+
+            DataGridViewRow fila = dataGridReserves.SelectedRows[0];
+            int reservaId = Convert.ToInt32(fila.Cells["Id"].Value);
+
+            DialogResult okdialog = MessageBox.Show(
+                $"Segur que vols eliminar la reserva amb id {reservaId}?",
+                "Confirmació d'eliminació",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (okdialog != DialogResult.Yes)
+            {
+                return;
+            }
+
+            try
+            {
+                using HttpResponseMessage response = await HttpClient.DeleteAsync($"http://localhost:8080/api/reserves/{reservaId}");
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Reserva eliminada correctament", "Reserva eliminada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    await CarregarProperes20ReservesAsync();
+                }
+                else
+                {
+                    MessageBox.Show("Error eliminant la reserva", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Error eliminant la reserva", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

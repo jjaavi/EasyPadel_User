@@ -50,8 +50,23 @@
             btnReserves = new Button();
             btnUsuaris = new Button();
             btnMantenimentDePistes = new Button();
+            dataGridView1 = new DataGridView();
+            label6 = new Label();
+            label7 = new Label();
+            label8 = new Label();
+            txtFiltreTelefon = new TextBox();
+            txtFiltreNom = new TextBox();
+            label9 = new Label();
+            label10 = new Label();
+            txtFiltreMail = new TextBox();
+            txtFiltreUsuariUsuari = new TextBox();
+            button1 = new Button();
+            txtFiltreCognom = new TextBox();
+            label11 = new Label();
             panelReserves.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridReserves).BeginInit();
+            panelUsuaris.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // panelLogo
@@ -231,6 +246,20 @@
             // 
             // panelUsuaris
             // 
+            panelUsuaris.BackColor = Color.White;
+            panelUsuaris.Controls.Add(label11);
+            panelUsuaris.Controls.Add(txtFiltreCognom);
+            panelUsuaris.Controls.Add(label6);
+            panelUsuaris.Controls.Add(label7);
+            panelUsuaris.Controls.Add(label8);
+            panelUsuaris.Controls.Add(txtFiltreTelefon);
+            panelUsuaris.Controls.Add(txtFiltreNom);
+            panelUsuaris.Controls.Add(label9);
+            panelUsuaris.Controls.Add(label10);
+            panelUsuaris.Controls.Add(txtFiltreMail);
+            panelUsuaris.Controls.Add(txtFiltreUsuariUsuari);
+            panelUsuaris.Controls.Add(button1);
+            panelUsuaris.Controls.Add(dataGridView1);
             panelUsuaris.Location = new Point(12, 117);
             panelUsuaris.Name = "panelUsuaris";
             panelUsuaris.Size = new Size(1038, 555);
@@ -276,6 +305,125 @@
             btnMantenimentDePistes.UseVisualStyleBackColor = true;
             btnMantenimentDePistes.Click += btnMantenimentDePistes_Click;
             // 
+            // dataGridView1
+            // 
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.AllowUserToOrderColumns = true;
+            dataGridView1.BackgroundColor = SystemColors.Control;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(16, 89);
+            dataGridView1.MultiSelect = false;
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.ReadOnly = true;
+            dataGridView1.RowHeadersWidth = 62;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.Size = new Size(1007, 394);
+            dataGridView1.TabIndex = 3;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(527, 13);
+            label6.Name = "label6";
+            label6.Size = new Size(86, 25);
+            label6.TabIndex = 24;
+            label6.Text = "Cognom:";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(305, 50);
+            label7.Name = "label7";
+            label7.Size = new Size(53, 25);
+            label7.TabIndex = 23;
+            label7.Text = "Data:";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(305, 13);
+            label8.Name = "label8";
+            label8.Size = new Size(56, 25);
+            label8.TabIndex = 22;
+            label8.Text = "Nom:";
+            // 
+            // txtFiltreTelefon
+            // 
+            txtFiltreTelefon.BorderStyle = BorderStyle.FixedSingle;
+            txtFiltreTelefon.Location = new Point(364, 50);
+            txtFiltreTelefon.Name = "txtFiltreTelefon";
+            txtFiltreTelefon.Size = new Size(150, 31);
+            txtFiltreTelefon.TabIndex = 21;
+            // 
+            // txtFiltreNom
+            // 
+            txtFiltreNom.BorderStyle = BorderStyle.FixedSingle;
+            txtFiltreNom.Location = new Point(364, 9);
+            txtFiltreNom.Name = "txtFiltreNom";
+            txtFiltreNom.Size = new Size(150, 31);
+            txtFiltreNom.TabIndex = 20;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(81, 52);
+            label9.Name = "label9";
+            label9.Size = new Size(58, 25);
+            label9.TabIndex = 19;
+            label9.Text = "Email:";
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(40, 11);
+            label10.Name = "label10";
+            label10.Size = new Size(99, 25);
+            label10.TabIndex = 18;
+            label10.Text = "Id d'usuari:";
+            // 
+            // txtFiltreMail
+            // 
+            txtFiltreMail.BorderStyle = BorderStyle.FixedSingle;
+            txtFiltreMail.Location = new Point(145, 50);
+            txtFiltreMail.Name = "txtFiltreMail";
+            txtFiltreMail.Size = new Size(150, 31);
+            txtFiltreMail.TabIndex = 17;
+            // 
+            // txtFiltreUsuariUsuari
+            // 
+            txtFiltreUsuariUsuari.BorderStyle = BorderStyle.FixedSingle;
+            txtFiltreUsuariUsuari.Location = new Point(145, 9);
+            txtFiltreUsuariUsuari.Name = "txtFiltreUsuariUsuari";
+            txtFiltreUsuariUsuari.Size = new Size(150, 31);
+            txtFiltreUsuariUsuari.TabIndex = 16;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(866, 10);
+            button1.Name = "button1";
+            button1.Size = new Size(155, 34);
+            button1.TabIndex = 15;
+            button1.Text = "Cercar";
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // txtFiltreCognom
+            // 
+            txtFiltreCognom.BorderStyle = BorderStyle.FixedSingle;
+            txtFiltreCognom.Location = new Point(619, 11);
+            txtFiltreCognom.Name = "txtFiltreCognom";
+            txtFiltreCognom.Size = new Size(150, 31);
+            txtFiltreCognom.TabIndex = 25;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(572, 52);
+            label11.Name = "label11";
+            label11.Size = new Size(41, 25);
+            label11.TabIndex = 26;
+            label11.Text = "Rol:";
+            // 
             // FormAdministrador
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -287,9 +435,9 @@
             Controls.Add(btnMantenimentDePistes);
             Controls.Add(btnUsuaris);
             Controls.Add(btnReserves);
+            Controls.Add(panelUsuaris);
             Controls.Add(panelReserves);
             Controls.Add(lblPrincipal);
-            Controls.Add(panelUsuaris);
             Controls.Add(panelMantenimentDePistes);
             Margin = new Padding(2);
             MaximizeBox = false;
@@ -299,6 +447,9 @@
             panelReserves.ResumeLayout(false);
             panelReserves.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridReserves).EndInit();
+            panelUsuaris.ResumeLayout(false);
+            panelUsuaris.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -327,5 +478,18 @@
         private TextBox txtFiltreData;
         private TextBox txtFiltrePista;
         private ComboBox comboBoxFiltreTorn;
+        private DataGridView dataGridView1;
+        private Label label11;
+        private TextBox txtFiltreCognom;
+        private Label label6;
+        private Label label7;
+        private Label label8;
+        private TextBox txtFiltreTelefon;
+        private TextBox txtFiltreNom;
+        private Label label9;
+        private Label label10;
+        private TextBox txtFiltreMail;
+        private TextBox txtFiltreUsuariUsuari;
+        private Button button1;
     }
 }

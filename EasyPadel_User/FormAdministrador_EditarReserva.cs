@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http.Json;
 using System.Text.Json.Serialization;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace EasyPadel_User
 {
@@ -92,13 +93,13 @@ namespace EasyPadel_User
 
         private async void btnModificarReserva_Click(object? sender, EventArgs e)
         {
-            DialogResult confirmacio = MessageBox.Show(
+            DialogResult okdialog = MessageBox.Show(
                 "Segur que vols modificar aquesta reserva?",
                 "Modificar reserva",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
-            if (confirmacio != DialogResult.Yes)
+            if (okdialog != DialogResult.Yes)
             {
                 return;
             }

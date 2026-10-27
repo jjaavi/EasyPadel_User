@@ -210,13 +210,13 @@ namespace EasyPadel_User
         {
             MarcarSubmenuReservesActiu(btnCancelarReserva);
 
-            DialogResult resultat = MessageBox.Show(
+            DialogResult okdialog = MessageBox.Show(
                 "Segur que vols cancelar aquesta reserva?",
                 "Cancelar reserva",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
-            if (resultat == DialogResult.Yes)
+            if (okdialog == DialogResult.Yes)
             {
                 int reservaId = (int)dataGridViewReservesSoci.SelectedRows[0].Cells["Id"].Value;
 
@@ -505,13 +505,13 @@ namespace EasyPadel_User
                 DateTime dataSeleccio = monthCalendarSeleccio.SelectionStart.Date;
                 string missatgeConfirmacio = $"Vols reservar el torn {tornSeleccionat.Text} per la pista {pistaSeleccionada.Nom} el dia {dataSeleccio:yyyy-MM-dd}?";
 
-                DialogResult resultat = MessageBox.Show(
+                DialogResult okdialog = MessageBox.Show(
                     missatgeConfirmacio,
                     "Confirmació reserva",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
 
-                if (resultat != DialogResult.Yes)
+                if (okdialog != DialogResult.Yes)
                 {
                     return;
                 }
@@ -551,14 +551,14 @@ namespace EasyPadel_User
 
             if (checkBoxUpdatePassword.Checked)
             {
-                DialogResult confirmacioCanviPassword = MessageBox.Show(
+                DialogResult okdialog = MessageBox.Show(
                     "Segur que vols fer el canvi de contrasenya?",
                     "Confirmació",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
                  
 
-                if (confirmacioCanviPassword != DialogResult.Yes)
+                if (okdialog != DialogResult.Yes)
                 {
                     return;
                 }
