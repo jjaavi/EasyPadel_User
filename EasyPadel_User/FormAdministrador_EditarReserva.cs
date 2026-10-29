@@ -134,7 +134,7 @@ namespace EasyPadel_User
                 }
                 else
                 {
-                    MessageBox.Show("No s'ha pogut modificar la reserva.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("No s'ha pogut modificar la reserva. És possible que ja existeixi una reserva per aquesta pista en aquest torn.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch

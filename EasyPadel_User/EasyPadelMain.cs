@@ -6,7 +6,7 @@ namespace EasyPadel
 {
     internal static class EasyPadelMain
     {
-        private const string BackendJarPath = @"..\..\..\server\easypadel-backend-1.1.0.jar";
+        private const string BackendJarPath = @"..\..\..\server\easypadel-backend-1.2.0.jar";
 
         private static readonly HttpClient HttpClient = new()
         {

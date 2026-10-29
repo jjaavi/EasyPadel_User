@@ -145,7 +145,7 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
+            FormBorderStyle = FormBorderStyle.Fixed3D;
             MaximizeBox = false;
             Name = "FormAdministrador_EditarReserva";
             Text = "Editar reserva";

@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Drawing;
 using System.Globalization;
 using System.Net.Http.Json;
 using System.Text.Json.Serialization;
-using System.Drawing;
 using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace EasyPadel_User
 {
@@ -18,10 +19,16 @@ namespace EasyPadel_User
             btnUsuaris.Click += btnUsuaris_Click;
             btnMantenimentDePistes.Click += btnMantenimentDePistes_Click;
             btnCercarReserva.Click += btnCercarReserva_Click;
+            btnCercarUsuari.Click += btnCercarUsuari_Click;
             btnModificarReserva.Click += btnModificarReserva_Click;
             btnEliminarReserva.Click += btnEliminarReserva_Click;
+            btnBaixaUsuari.Click += btnBaixaUsuari_Click;
+            btnAltaUsuari.Click += btnAltaUsuari_Click;
+            btnModificarUsuari.Click += btnModificarUsuari_Click;
             dataGridReserves.SelectionChanged += dataGridReserves_SelectionChanged;
+            dataGridViewUsuaris.SelectionChanged += dataGridViewUsuaris_SelectionChanged;
             dataGridReserves.CellContentDoubleClick += btnModificarReserva_Click;
+            dataGridViewUsuaris.CellContentDoubleClick += btnModificarUsuari_Click;
         }
 
         private void MarcarMenuActiuAdministrador(Button botoActiu)
@@ -44,6 +51,10 @@ namespace EasyPadel_User
             if (panelReserves.Visible)
             {
                 await InicialitzarPanellReservesAsync();
+            }
+            if (panelUsuaris.Visible)
+            {
+                await InicialitzarPanellUsuarisAsync();
             }
         }
 
@@ -89,6 +100,28 @@ namespace EasyPadel_User
 
             await CarregarProperes20ReservesAsync();
             ActualitzarEstatBotonsReserves();
+        }
+
+        private async Task InicialitzarPanellUsuarisAsync()
+        {
+            btnBaixaUsuari.Enabled = false;
+            btnModificarUsuari.Enabled = false;
+            checkBoxEstat.Checked = true;
+            dataGridViewUsuaris.DataSource = null;
+
+            if (comboBoxRol.Items.Count == 0)
+            {
+                comboBoxRol.Items.AddRange(
+                [
+                    string.Empty,
+                    "USER",
+                    "ADMIN"
+                ]);
+
+                comboBoxRol.SelectedIndex = 0;
+            }
+
+            await Task.CompletedTask;
         }
 
         private async Task CarregarProperes20ReservesAsync()
@@ -155,6 +188,66 @@ namespace EasyPadel_User
             }
         }
 
+        private async void btnCercarUsuari_Click(object? sender, EventArgs e)
+        {
+            if (!validarInt(txtFiltreUsuariUsuari.Text, out int? usuariId))
+            {
+                MessageBox.Show("El camp Id d'usuari ha de ser numèric.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!validarData(txtFiltreTelefon.Text, out string? dataAlta))
+            {
+                MessageBox.Show("El format de data no és vàlid. Ha de ser yyyy-MM-dd.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string? nom = NullIfWhiteSpace(txtFiltreNom.Text);
+            string? cognom = NullIfWhiteSpace(txtFiltreCognom.Text);
+            string? email = NullIfWhiteSpace(txtFiltreMail.Text);
+            string? rol = rolEndpoint(NullIfWhiteSpace(comboBoxRol.Text));
+            bool actiu = checkBoxEstat.Checked;
+
+            string endpoint = GenerateEndpointCercaAdminUsuaris(usuariId, nom, cognom, email, rol, actiu, dataAlta);
+
+            try
+            {
+                List<UsuariResponseDto> usuaris = await HttpClient.GetFromJsonAsync<List<UsuariResponseDto>>(endpoint)
+                    ?? [];
+                ActualitzarGridUsuaris(usuaris);
+            }
+            catch
+            {
+                MessageBox.Show("No s'han pogut carregar els usuaris.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private static string? NullIfWhiteSpace(string? value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return null;
+            }
+
+            return value.Trim();
+        }
+
+        private static string? rolEndpoint(string? rol)
+        {
+            string? rolseleccionat = NullIfWhiteSpace(rol);
+            if (rolseleccionat is null)
+            {
+                return null;
+            }
+
+            return rolseleccionat switch
+            {
+                "ADMIN" => "ADMIN",
+                "USER" => "USER",
+                _ => null
+            };
+        }
+
         private static bool validarInt(string text, out int? value)
         {
             string net = text.Trim();
@@ -183,7 +276,7 @@ namespace EasyPadel_User
                 return true;
             }
 
-            if (DateTime.TryParse(formatdataok, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime dataParsed))
+            if (DateTime.TryParseExact(formatdataok, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dataParsed))
             {
                 data = dataParsed.ToString("yyyy-MM-dd");
                 return true;
@@ -225,6 +318,52 @@ namespace EasyPadel_User
             return $"http://localhost:8080/api/reserves/cercaAdmin?{string.Join("&", stringList)}";
         }
 
+        private static string GenerateEndpointCercaAdminUsuaris(int? usuariId, string? nom, string? cognom, string? email, string? rol, bool actiu, string? dataAlta)
+        {
+            List<string> stringList = [];
+
+            if (usuariId.HasValue)
+            {
+                stringList.Add($"usuariId={usuariId.Value}");
+            }
+
+            if (!string.IsNullOrWhiteSpace(nom))
+            {
+                stringList.Add($"nom={Uri.EscapeDataString(nom)}");
+            }
+
+            if (!string.IsNullOrWhiteSpace(cognom))
+            {
+                stringList.Add($"cognom={Uri.EscapeDataString(cognom)}");
+            }
+
+            if (!string.IsNullOrWhiteSpace(email))
+            {
+                stringList.Add($"email={Uri.EscapeDataString(email)}");
+            }
+
+            if (!string.IsNullOrWhiteSpace(rol))
+            {
+                stringList.Add($"rol={Uri.EscapeDataString(rol)}");
+            }
+
+            if (actiu)
+            {
+                stringList.Add($"actiu=true");
+            }
+            else
+            {
+                stringList.Add($"actiu=false");
+            }
+
+            if (!string.IsNullOrWhiteSpace(dataAlta))
+            {
+                stringList.Add($"dataAlta={Uri.EscapeDataString(dataAlta)}");
+            }
+
+            return $"http://localhost:8080/api/usuaris/cercaAdmin?{string.Join("&", stringList)}";
+        }
+
         private void ActualitzarGridReserves(List<ReservaResponseDto> reserves)
         {
             dataGridReserves.DataSource = reserves
@@ -243,9 +382,73 @@ namespace EasyPadel_User
             ActualitzarEstatBotonsReserves();
         }
 
+        private void ActualitzarGridUsuaris(List<UsuariResponseDto> usuaris)
+        {
+            dataGridViewUsuaris.DataSource = usuaris
+                .Select(u => new
+                {
+                    Id = u.Id,
+                    Nom = u.Nom,
+                    Cognom = u.Cognom,
+                    Email = u.Email,
+                    Telefon = u.Telefon,
+                    Rol = u.Rol,
+                    DataAlta = u.DataAlta,
+                    Actiu = u.Actiu
+                })
+                .ToList();
+        }
+
         private void dataGridReserves_SelectionChanged(object? sender, EventArgs e)
         {
             ActualitzarEstatBotonsReserves();
+        }
+
+        private void dataGridViewUsuaris_SelectionChanged(object? sender, EventArgs e)
+        {
+            ActualitzarEstatBotonsUsuaris();
+        }
+
+        private void btnAltaUsuari_Click(object? sender, EventArgs e)
+        {
+            MostrarFormEditaOAltaUsuari(modificar: false);
+        }
+
+        private void btnModificarUsuari_Click(object? sender, EventArgs e)
+        {
+            if (dataGridViewUsuaris.SelectedRows.Count == 0)
+            {
+                return;
+            }
+
+            DataGridViewRow fila = dataGridViewUsuaris.SelectedRows[0];
+            string nom = Convert.ToString(fila.Cells["Nom"].Value);
+            string cognom = Convert.ToString(fila.Cells["Cognom"].Value);
+            string telefon = Convert.ToString(fila.Cells["Telefon"].Value);
+            string email = Convert.ToString(fila.Cells["Email"].Value);
+            bool admin = false;
+            if (Convert.ToString(fila.Cells["Rol"].Value) == "ADMIN")
+            {
+                admin = true;
+            }else
+            {
+                admin = false;
+            }
+
+            MostrarFormEditaOAltaUsuari(true, nom, cognom, telefon, email, admin);
+        }
+
+        private async void MostrarFormEditaOAltaUsuari(bool modificar, string nom = "", string cognom = "", string telefon = "", string email = "", bool admin = false)
+        {
+            using FormAdministrdor_EditaOAltaUsuari formulariUsuari = new(modificar, nom, cognom, telefon, email, admin);
+            formulariUsuari.StartPosition = FormStartPosition.Manual;
+            formulariUsuari.Location = Location;
+            formulariUsuari.Size = new Size(366, 397);
+            formulariUsuari.MinimumSize = new Size(366, 397);
+            if (formulariUsuari.ShowDialog(this) == DialogResult.OK)
+            {
+                await InicialitzarPanellUsuarisAsync();
+            }
         }
 
         private async void btnModificarReserva_Click(object? sender, EventArgs e)
@@ -263,13 +466,13 @@ namespace EasyPadel_User
             string tornText = Convert.ToString(fila.Cells["Torn"].Value) ?? string.Empty;
             int torn = getTornComboBoxIndex(tornText);
 
-            using FormAdministrador_EditarReserva formulariEditar = new(reservaId, usuariId, pistaId, data, torn);
-            formulariEditar.StartPosition = FormStartPosition.Manual;
-            formulariEditar.Location = this.Location;
-            formulariEditar.Size = new Size(389, 378);
-            formulariEditar.MinimumSize = new Size(389, 378);
+            using FormAdministrador_EditarReserva formulariEditarReserva = new(reservaId, usuariId, pistaId, data, torn);
+            formulariEditarReserva.StartPosition = FormStartPosition.Manual;
+            formulariEditarReserva.Location = this.Location;
+            formulariEditarReserva.Size = new Size(389, 378);
+            formulariEditarReserva.MinimumSize = new Size(389, 378);
 
-            if (formulariEditar.ShowDialog(this) == DialogResult.OK)
+            if (formulariEditarReserva.ShowDialog(this) == DialogResult.OK)
             {
                 await CarregarProperes20ReservesAsync();
             }
@@ -315,6 +518,48 @@ namespace EasyPadel_User
             }
         }
 
+        private async void btnBaixaUsuari_Click(object? sender, EventArgs e)
+        {
+            if (dataGridViewUsuaris.SelectedRows.Count == 0)
+            {
+                return;
+            }
+
+            DataGridViewRow fila = dataGridViewUsuaris.SelectedRows[0];
+            int usuariId = Convert.ToInt32(fila.Cells["Id"].Value);
+            string nom = Convert.ToString(fila.Cells["Nom"].Value) ?? string.Empty;
+            string cognom = Convert.ToString(fila.Cells["Cognom"].Value) ?? string.Empty;
+
+            DialogResult confirmacio = MessageBox.Show(
+                $"Vols donar de baixa l'usuari amb id {usuariId} ({nom} {cognom}) ? El seu estat es posar a NO ACTIU",
+                "Confirmació",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (confirmacio != DialogResult.Yes)
+            {
+                return;
+            }
+
+            try
+            {
+                using HttpResponseMessage response = await HttpClient.PutAsync($"http://localhost:8080/api/usuaris/{usuariId}/baixa", null);
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show($"Usuari {usuariId} - {nom} {cognom}  donat de baixa correctament.", "Informació", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    await InicialitzarPanellUsuarisAsync();
+                }
+                else
+                {
+                    MessageBox.Show("Error donant de baixa l'usuari.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Error donant de baixa l'usuari.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void ActualitzarEstatBotonsReserves()
         {
             if (dataGridReserves.SelectedRows.Count > 0)
@@ -327,6 +572,13 @@ namespace EasyPadel_User
                 btnModificarReserva.Enabled = false;
                 btnEliminarReserva.Enabled = false;
             }
+        }
+
+        private void ActualitzarEstatBotonsUsuaris()
+        {
+            bool filaSeleccionada = dataGridViewUsuaris.SelectedRows.Count > 0;
+            btnBaixaUsuari.Enabled = filaSeleccionada;
+            btnModificarUsuari.Enabled = filaSeleccionada;
         }
 
         private string GetHoresTornString(int torn)
@@ -384,5 +636,24 @@ namespace EasyPadel_User
             [property: JsonPropertyName("pistaNom")] string PistaNom,
             [property: JsonPropertyName("data")] string Data,
             [property: JsonPropertyName("torn")] int Torn);
+
+        private sealed record UsuariResponseDto(
+            [property: JsonPropertyName("id")] int Id,
+            [property: JsonPropertyName("nom")] string? Nom,
+            [property: JsonPropertyName("cognom")] string? Cognom,
+            [property: JsonPropertyName("email")] string? Email,
+            [property: JsonPropertyName("telefon")] string? Telefon,
+            [property: JsonPropertyName("rol")] string? Rol,
+            [property: JsonPropertyName("actiu")] bool? Actiu,
+            [property: JsonPropertyName("dataAlta")] string? DataAlta);
+
+        private sealed record UsuariUpdateRequestDto(
+            [property: JsonPropertyName("nom")] string Nom,
+            [property: JsonPropertyName("cognom")] string Cognom,
+            [property: JsonPropertyName("email")] string Email,
+            [property: JsonPropertyName("password")] string? Password,
+            [property: JsonPropertyName("telefon")] string? Telefon,
+            [property: JsonPropertyName("rol")] string? Rol,
+            [property: JsonPropertyName("actiu")] bool? Actiu);
     }
 }
