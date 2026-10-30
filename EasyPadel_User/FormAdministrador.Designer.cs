@@ -46,6 +46,8 @@
             btnModificarReserva = new Button();
             btnEliminarReserva = new Button();
             panelUsuaris = new Panel();
+            checkBoxEstat = new CheckBox();
+            btnModificarUsuari = new Button();
             btnAltaUsuari = new Button();
             btnBaixaUsuari = new Button();
             comboBoxRol = new ComboBox();
@@ -66,8 +68,7 @@
             btnReserves = new Button();
             btnUsuaris = new Button();
             btnMantenimentDePistes = new Button();
-            btnModificarUsuari = new Button();
-            checkBoxEstat = new CheckBox();
+            btnCanviarPasswordAdminActual = new Button();
             panelReserves.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridReserves).BeginInit();
             panelUsuaris.SuspendLayout();
@@ -252,6 +253,7 @@
             // panelUsuaris
             // 
             panelUsuaris.BackColor = Color.White;
+            panelUsuaris.Controls.Add(btnCanviarPasswordAdminActual);
             panelUsuaris.Controls.Add(checkBoxEstat);
             panelUsuaris.Controls.Add(btnModificarUsuari);
             panelUsuaris.Controls.Add(btnAltaUsuari);
@@ -274,6 +276,25 @@
             panelUsuaris.Name = "panelUsuaris";
             panelUsuaris.Size = new Size(1038, 555);
             panelUsuaris.TabIndex = 4;
+            // 
+            // checkBoxEstat
+            // 
+            checkBoxEstat.AutoSize = true;
+            checkBoxEstat.Location = new Point(705, 12);
+            checkBoxEstat.Name = "checkBoxEstat";
+            checkBoxEstat.Size = new Size(78, 29);
+            checkBoxEstat.TabIndex = 31;
+            checkBoxEstat.Text = "Actiu";
+            checkBoxEstat.UseVisualStyleBackColor = true;
+            // 
+            // btnModificarUsuari
+            // 
+            btnModificarUsuari.Location = new Point(705, 494);
+            btnModificarUsuari.Name = "btnModificarUsuari";
+            btnModificarUsuari.Size = new Size(155, 34);
+            btnModificarUsuari.TabIndex = 30;
+            btnModificarUsuari.Text = "Modificar";
+            btnModificarUsuari.UseVisualStyleBackColor = true;
             // 
             // btnAltaUsuari
             // 
@@ -460,24 +481,14 @@
             btnMantenimentDePistes.UseVisualStyleBackColor = true;
             btnMantenimentDePistes.Click += btnMantenimentDePistes_Click;
             // 
-            // btnModificarUsuari
+            // btnCanviarPasswordAdminActual
             // 
-            btnModificarUsuari.Location = new Point(705, 494);
-            btnModificarUsuari.Name = "btnModificarUsuari";
-            btnModificarUsuari.Size = new Size(155, 34);
-            btnModificarUsuari.TabIndex = 30;
-            btnModificarUsuari.Text = "Modificar";
-            btnModificarUsuari.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxEstat
-            // 
-            checkBoxEstat.AutoSize = true;
-            checkBoxEstat.Location = new Point(705, 12);
-            checkBoxEstat.Name = "checkBoxEstat";
-            checkBoxEstat.Size = new Size(78, 29);
-            checkBoxEstat.TabIndex = 31;
-            checkBoxEstat.Text = "Actiu";
-            checkBoxEstat.UseVisualStyleBackColor = true;
+            btnCanviarPasswordAdminActual.Location = new Point(16, 494);
+            btnCanviarPasswordAdminActual.Name = "btnCanviarPasswordAdminActual";
+            btnCanviarPasswordAdminActual.Size = new Size(222, 34);
+            btnCanviarPasswordAdminActual.TabIndex = 32;
+            btnCanviarPasswordAdminActual.Text = "Canviar password admin";
+            btnCanviarPasswordAdminActual.UseVisualStyleBackColor = true;
             // 
             // FormAdministrador
             // 
@@ -551,5 +562,6 @@
         private Button btnAltaUsuari;
         private Button btnModificarUsuari;
         private CheckBox checkBoxEstat;
+        private Button btnCanviarPasswordAdminActual;
     }
 }

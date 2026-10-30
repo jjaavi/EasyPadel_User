@@ -422,25 +422,28 @@ namespace EasyPadel_User
             }
 
             DataGridViewRow fila = dataGridViewUsuaris.SelectedRows[0];
-            string nom = Convert.ToString(fila.Cells["Nom"].Value);
-            string cognom = Convert.ToString(fila.Cells["Cognom"].Value);
-            string telefon = Convert.ToString(fila.Cells["Telefon"].Value);
-            string email = Convert.ToString(fila.Cells["Email"].Value);
+            int usuariId = Convert.ToInt32(fila.Cells["Id"].Value);
+            string nom = Convert.ToString(fila.Cells["Nom"].Value)!;
+            string cognom = Convert.ToString(fila.Cells["Cognom"].Value)!;
+            string telefon = Convert.ToString(fila.Cells["Telefon"].Value)!;
+            string email = Convert.ToString(fila.Cells["Email"].Value)!;
             bool admin = false;
             if (Convert.ToString(fila.Cells["Rol"].Value) == "ADMIN")
             {
                 admin = true;
-            }else
+            }
+            bool actiu = true;
+            if (Convert.ToBoolean(fila.Cells["Actiu"].Value) == false)
             {
-                admin = false;
+                actiu = false;
             }
 
-            MostrarFormEditaOAltaUsuari(true, nom, cognom, telefon, email, admin);
+            MostrarFormEditaOAltaUsuari(true, usuariId, nom, cognom, telefon, email, admin, actiu);
         }
 
-        private async void MostrarFormEditaOAltaUsuari(bool modificar, string nom = "", string cognom = "", string telefon = "", string email = "", bool admin = false)
+        private async void MostrarFormEditaOAltaUsuari(bool modificar, int? usuariId = null, string nom = "", string cognom = "", string telefon = "", string email = "", bool admin = false, bool actiu = true)
         {
-            using FormAdministrdor_EditaOAltaUsuari formulariUsuari = new(modificar, nom, cognom, telefon, email, admin);
+            using FormAdministrdor_EditaOAltaUsuari formulariUsuari = new(modificar, usuariId, nom, cognom, telefon, email, admin, actiu);
             formulariUsuari.StartPosition = FormStartPosition.Manual;
             formulariUsuari.Location = Location;
             formulariUsuari.Size = new Size(366, 397);

@@ -56,6 +56,7 @@ namespace EasyPadel_User
             // 
             txtNom.BorderStyle = BorderStyle.FixedSingle;
             txtNom.Location = new Point(122, 23);
+            txtNom.MaxLength = 20;
             txtNom.Name = "txtNom";
             txtNom.Size = new Size(194, 31);
             txtNom.TabIndex = 1;
@@ -73,6 +74,7 @@ namespace EasyPadel_User
             // 
             txtCognom.BorderStyle = BorderStyle.FixedSingle;
             txtCognom.Location = new Point(122, 60);
+            txtCognom.MaxLength = 20;
             txtCognom.Name = "txtCognom";
             txtCognom.Size = new Size(194, 31);
             txtCognom.TabIndex = 3;
@@ -90,6 +92,7 @@ namespace EasyPadel_User
             // 
             txtTelefon.BorderStyle = BorderStyle.FixedSingle;
             txtTelefon.Location = new Point(122, 97);
+            txtTelefon.MaxLength = 15;
             txtTelefon.Name = "txtTelefon";
             txtTelefon.Size = new Size(194, 31);
             txtTelefon.TabIndex = 5;
@@ -107,6 +110,7 @@ namespace EasyPadel_User
             // 
             txtEmail.BorderStyle = BorderStyle.FixedSingle;
             txtEmail.Location = new Point(122, 158);
+            txtEmail.MaxLength = 100;
             txtEmail.Name = "txtEmail";
             txtEmail.Size = new Size(194, 31);
             txtEmail.TabIndex = 7;
@@ -124,6 +128,7 @@ namespace EasyPadel_User
             // 
             txtPassword.BorderStyle = BorderStyle.FixedSingle;
             txtPassword.Location = new Point(122, 195);
+            txtPassword.MaxLength = 200;
             txtPassword.Name = "txtPassword";
             txtPassword.Size = new Size(194, 31);
             txtPassword.TabIndex = 9;
